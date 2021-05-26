@@ -87,7 +87,7 @@ print(model.circle_correlation(x))
 
     
 ![png](circle of correlation.png)
-![Screenshot](circle of correlation.png)   
+![alt text](https://raw.githubusercontent.com/mussard974/Phi_alpha-PCA/branch/path/to/circle of correlation.png) 
 
 
     None

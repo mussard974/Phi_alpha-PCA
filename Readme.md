@@ -86,8 +86,7 @@ print(model.circle_correlation(x))
 
 
     
-![png](circle of correlation.png)
-![alt text](https://raw.githubusercontent.com/mussard974/Phi_alpha-PCA/branch/path/to/circle of correlation.png)
+![png](circle_of_correlation.png)
 
 
     None
@@ -277,7 +276,7 @@ print(model.plot2D(x, alpha))
 
 
     
-![png](2D graph.png)
+![png](2D_graph.png)
     
 
 
@@ -300,7 +299,7 @@ print(model.plot3D(x, alpha))
 
 
     
-![png](3D graph.png)
+![png](3D_graph.png)
     
 
 

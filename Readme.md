@@ -86,7 +86,7 @@ print(model.circle_correlation(x))
 
 
     
-![png](output_14_1.png)
+![png](circle of correlation.png)
     
 
 

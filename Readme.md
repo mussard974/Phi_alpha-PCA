@@ -277,7 +277,7 @@ print(model.plot2D(x, alpha))
 
 
     
-![png](output_26_1.png)
+![png](2D graph.png)
     
 
 
@@ -300,7 +300,7 @@ print(model.plot3D(x, alpha))
 
 
     
-![png](output_29_1.png)
+![png](3D graph.png)
     
 
 

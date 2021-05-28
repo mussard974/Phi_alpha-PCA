@@ -92,7 +92,7 @@ print(model.circle_correlation(x))
     None
 
 
-### Find the projection matrix (F)
+### The projection matrix of the observations (points)
 
 
 ```python

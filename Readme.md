@@ -7,8 +7,8 @@ In this package, we find:
   * The projection matrix (F)
   * Eigenvualues, percentage of variance and cumulative percentage of variance
   * Relative contributions of variables
-  * Relative contributions of the observations
-  * Absolute contributions of the observations (cos²)
+  * Relative contributions of the observations (cos²)
+  * Absolute contributions of the observations 
   * Search for optimal alpha in order to detect and minimize the influence of outliers
   * 2D graphics of the observations
   * 3D graphics of the observations

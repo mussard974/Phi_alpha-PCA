@@ -56,7 +56,6 @@ for nb_composantes in np.arange(10, 110, 10):
     resultat_PCA = model_test.evaluate(X_test_PCA,y_test)
     B[i, 0] = resultat_PCA
 
-
     X_transformed = transformer.fit_transform(x_test)
     X_test_KernelPCA = transformer.inverse_transform(X_transformed)
     X_test_KernelPCA  = torch.reshape(torch.from_numpy(X_test_KernelPCA), (10000, 28, 28,1))
@@ -64,16 +63,13 @@ for nb_composantes in np.arange(10, 110, 10):
     resultat_KernelPCA = model_test.evaluate(X_test_KernelPCA,y_test)
     C[i, 0] = resultat_KernelPCA
 
-
-
     X_test_SVD = SVD.fit_transform(x_test)
     X_test_SVD = SVD.inverse_transform(X_test_SVD)
     X_test_SVD  = torch.reshape(torch.from_numpy(X_test_SVD), (10000, 28, 28,1))
     X_test_SVD = X_test_SVD.numpy()
     resultat = model_test.evaluate(X_test_SVD,y_test)
     D[i, 0] = resultat
-    
-    
+        
     X_test_sparse = sparse.fit_transform(x_test)
     X_test_sparse = (X_test_sparse @ sparse.components_) + sparse.mean_
     X_test_sparse  = torch.reshape(torch.from_numpy(X_test_sparse), (10000, 28, 28,1))

@@ -54,7 +54,7 @@ for nb_composantes in np.arange(10, 110, 10):
     X_test_PCA  = torch.reshape(torch.from_numpy(X_test_PCA), (10000, 28, 28,1))
     X_test_PCA = X_test_PCA.numpy()
     resultat_PCA = model_test.evaluate(X_test_PCA,y_test)
-    D[i, 0] = resultat_PCA
+    B[i, 0] = resultat_PCA
 
 
     X_transformed = transformer.fit_transform(x_test)
@@ -71,7 +71,7 @@ for nb_composantes in np.arange(10, 110, 10):
     X_test_SVD  = torch.reshape(torch.from_numpy(X_test_SVD), (10000, 28, 28,1))
     X_test_SVD = X_test_SVD.numpy()
     resultat = model_test.evaluate(X_test_SVD,y_test)
-    B[i, 0] = resultat
+    D[i, 0] = resultat
     
     
     X_test_sparse = sparse.fit_transform(x_test)
@@ -82,3 +82,27 @@ for nb_composantes in np.arange(10, 110, 10):
     E[i, 0] = resultat
 
     i+=1 
+
+ ### GRAPH
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+nb_composantes = np.arange(10, 110, 10)
+
+#plt.plot(nb_composantes, G[0:10, 0], label= "alpha = 0.1")
+plt.plot(nb_composantes, B[0:10, 0], label= "PCA")
+plt.plot(nb_composantes, C[0:10, 2], label ="Kernel")
+plt.plot(nb_composantes, D[0:10, 9], label ="SVD")
+plt.plot(nb_composantes, E[0:10, 14], label ="Sparse_ACP")
+
+plt.xlim(10,110)
+plt.ylim(0,1)
+
+plt.legend(loc="best")
+plt.xlabel('Number of principal components')
+plt.ylabel('Accuracy')
+plt.title('Accuracy according to the principal components and the method used')
+plt.show()
+plt.savefig("graph_F_mesure_nb_composantes.png")
+ 

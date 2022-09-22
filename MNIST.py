@@ -12,7 +12,7 @@ os.chdir('Efficient-CapsNet')
 ############ 
 # MNIST
 ############
-
+import matplotlib.pyplot as plt
 import tensorflow as tf
 from utils import AffineVisualizer, Dataset
 from models import EfficientCapsNet
@@ -36,69 +36,72 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.decomposition import KernelPCA
 from sklearn.decomposition import PCA
 from sklearn.decomposition import SparsePCA
-
+        
+# Matrices des résultats de la classif        
+A = np.zeros((30, 1))
 B = np.zeros((30, 1))
 C = np.zeros((30, 1))
 D = np.zeros((30, 1))
 E = np.zeros((30, 1))
 
+alpha_param = 0.3
+
 i = 0
 for nb_composantes in np.arange(10, 110, 10):
-    SVD = TruncatedSVD(n_components=nb_composantes, n_iter=5, random_state=42)
-    transformer = KernelPCA(n_components=nb_composantes, kernel='linear', fit_inverse_transform=True)
+    model_Phi_Alpha_PCA = PCAAlpha(alpha = alpha_param, nb_components = nb_composantes)
+    X_test = model_Phi_Alpha_PCA.fit_inverse(x_train, x_test)
+    X_test  = torch.reshape(X_test, (10000, 28, 28,1))
+    X_test = X_test.numpy()
+    A[i, 0] = model_test.evaluate(X_test, y_test)
+    
     pca = PCA(n_components=nb_composantes)
-    sparse = SparsePCA(n_components=nb_composantes, random_state=0)
-
+    pca.fit(x_train)
     X_test_PCA = pca.fit_transform(x_test)
     X_test_PCA = pca.inverse_transform(X_test_PCA)
     X_test_PCA  = torch.reshape(torch.from_numpy(X_test_PCA), (10000, 28, 28,1))
     X_test_PCA = X_test_PCA.numpy()
-    resultat_PCA = model_test.evaluate(X_test_PCA,y_test)
-    B[i, 0] = resultat_PCA
+    B[i, 0] = model_test.evaluate(X_test_PCA,y_test)
 
-    X_transformed = transformer.fit_transform(x_test)
-    X_test_KernelPCA = transformer.inverse_transform(X_transformed)
+    transformer = KernelPCA(n_components=nb_composantes, kernel='linear', fit_inverse_transform=True)
+    transformer.fit(x_train)
+    X_test_KernelPCA = transformer.fit_transform(x_test)
+    X_test_KernelPCA = transformer.inverse_transform(X_test_KernelPCA)
     X_test_KernelPCA  = torch.reshape(torch.from_numpy(X_test_KernelPCA), (10000, 28, 28,1))
     X_test_KernelPCA = X_test_KernelPCA.numpy()
-    resultat_KernelPCA = model_test.evaluate(X_test_KernelPCA,y_test)
-    C[i, 0] = resultat_KernelPCA
-
+    C[i, 0] = model_test.evaluate(X_test_KernelPCA,y_test)
+    
+    SVD = TruncatedSVD(n_components=nb_composantes, n_iter=5, random_state=42)
+    SVD.fit(x_train)
     X_test_SVD = SVD.fit_transform(x_test)
     X_test_SVD = SVD.inverse_transform(X_test_SVD)
     X_test_SVD  = torch.reshape(torch.from_numpy(X_test_SVD), (10000, 28, 28,1))
     X_test_SVD = X_test_SVD.numpy()
-    resultat = model_test.evaluate(X_test_SVD,y_test)
-    D[i, 0] = resultat
-        
+    D[i, 0] = model_test.evaluate(X_test_SVD,y_test)
+    
+    sparse = SparsePCA(n_components=nb_composantes, random_state=0)    
+    sparse.fit(x_train)
     X_test_sparse = sparse.fit_transform(x_test)
     X_test_sparse = (X_test_sparse @ sparse.components_) + sparse.mean_
     X_test_sparse  = torch.reshape(torch.from_numpy(X_test_sparse), (10000, 28, 28,1))
     X_test_sparse = X_test_sparse.numpy()
-    resultat = model_test.evaluate(X_test_sparse,y_test)
-    E[i, 0] = resultat
+    E[i, 0] = model_test.evaluate(X_test_sparse,y_test)
 
     i+=1 
 
  ### GRAPH
 
-import matplotlib.pyplot as plt
-import numpy as np
-
-nb_composantes = np.arange(10, 110, 10)
-
-#plt.plot(nb_composantes, G[0:10, 0], label= "alpha = 0.1")
-plt.plot(nb_composantes, B[0:10, 0], label= "PCA")
-plt.plot(nb_composantes, C[0:10, 2], label ="Kernel")
-plt.plot(nb_composantes, D[0:10, 9], label ="SVD")
-plt.plot(nb_composantes, E[0:10, 14], label ="Sparse_ACP")
+plt.plot(nb_composantes, A[0:10, :], label= "alpha = 0.3")
+plt.plot(nb_composantes, B[0:10, :], label ="PCA")
+plt.plot(nb_composantes, C[0:10, :], label ="Kernel")
+plt.plot(nb_composantes, D[0:10, :], label ="SVD")
+plt.plot(nb_composantes, D[0:10, :], label ="Sparse")
 
 plt.xlim(10,110)
 plt.ylim(0,1)
-
 plt.legend(loc="best")
 plt.xlabel('Number of principal components')
 plt.ylabel('Accuracy')
 plt.title('Accuracy according to the principal components and the method used')
 plt.show()
-plt.savefig("graph_F_mesure_nb_composantes.png")
+plt.savefig("graph_accuracy.png")
  

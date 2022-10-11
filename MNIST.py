@@ -62,7 +62,7 @@ for nb_composantes in np.arange(10, 110, 10):
     X_test_PCA = X_test_PCA.numpy()
     B[i, 0] = model_test.evaluate(X_test_PCA,y_test)
 
-    transformer = KernelPCA(n_components=nb_composantes, kernel='linear', fit_inverse_transform=True)
+    transformer = KernelPCA(n_components=nb_composantes, kernel='poly', fit_inverse_transform=True)
     transformer.fit(x_train)
     X_test_KernelPCA = transformer.fit_transform(x_test)
     X_test_KernelPCA = transformer.inverse_transform(X_test_KernelPCA)
@@ -89,12 +89,12 @@ for nb_composantes in np.arange(10, 110, 10):
     i+=1 
 
  ### GRAPH
-
-plt.plot(nb_composantes, A[0:10, :], label= "alpha = 0.3")
-plt.plot(nb_composantes, B[0:10, :], label ="PCA")
-plt.plot(nb_composantes, C[0:10, :], label ="Kernel")
-plt.plot(nb_composantes, D[0:10, :], label ="SVD")
-plt.plot(nb_composantes, D[0:10, :], label ="Sparse")
+nb_comp = np.arange(10, 110, 10)
+plt.plot(nb_comp, A[0:10, :], label= "alpha = 0.3")
+plt.plot(nb_comp, B[0:10, :], label ="PCA")
+plt.plot(nb_comp, C[0:10, :], label ="Kernel")
+plt.plot(nb_comp, D[0:10, :], label ="SVD")
+plt.plot(nb_comp, E[0:10, :], label ="Sparse")
 
 plt.xlim(10,110)
 plt.ylim(0,1)

@@ -38,13 +38,13 @@ from sklearn.decomposition import PCA
 from sklearn.decomposition import SparsePCA
         
 # Matrices des résultats de la classif        
-A = np.zeros((30, 1))
-B = np.zeros((30, 1))
-C = np.zeros((30, 1))
-D = np.zeros((30, 1))
-E = np.zeros((30, 1))
+A = np.zeros((10, 1))
+B = np.zeros((10, 1))
+C = np.zeros((10, 1))
+D = np.zeros((10, 1))
+E = np.zeros((10, 1))
 
-alpha_param = 0.3
+alpha_param = 0.4
 
 i = 0
 for nb_composantes in np.arange(10, 110, 10):
